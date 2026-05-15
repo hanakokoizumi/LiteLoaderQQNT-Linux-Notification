@@ -1,0 +1,64 @@
+# 以本目录为 Git 仓库根目录时，发布 Release 会自动打包 zip 并上传到该 Release。
+# 仅包含运行所需文件 + 生产依赖 node_modules（白名单）。
+#
+# 若本插件放在 monorepo 子目录中，GitHub 不会读取子目录下的 .github/workflows；
+# 此时请在 monorepo 根目录配置 workflow，或单独将本目录作为仓库使用。
+
+name: Release plugin zip
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: pnpm install (production)
+        run: pnpm install --frozen-lockfile --prod
+
+      - name: Create plugin zip (whitelist only)
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          ZIP_NAME="LiteLoaderQQNT-Linux-Notification-${TAG}.zip"
+          OUT="${GITHUB_WORKSPACE}/${ZIP_NAME}"
+          rm -f "$OUT"
+          zip -r9y "$OUT" \
+            manifest.json \
+            main.js \
+            preload.js \
+            renderer.js \
+            package.json \
+            pnpm-lock.yaml \
+            README.md \
+            LICENSE \
+            node_modules
+          ls -la "$OUT"
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: LiteLoaderQQNT-Linux-Notification-${{ github.event.release.tag_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
