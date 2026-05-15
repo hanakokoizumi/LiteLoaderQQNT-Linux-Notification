@@ -8,8 +8,8 @@
 
 ### 自 GitHub Releases
 
-1. 在仓库 Releases 中下载对应版本的 `LiteLoaderQQNT-Linux-Notification-<tag>.zip`（已包含生产依赖 `node_modules`，无需再执行 install）。
-2. 解压到 LiteLoader 的插件目录（解压后应能看到 `manifest.json`、`main.js` 等位于同一文件夹内）。
+1. 在仓库 Releases 中下载对应版本的 `LiteLoaderQQNT-Linux-Notification-<tag>.zip`。
+2. 在 LiteLoaderQQNT 控制面板选择从压缩包安装。
 3. 重启 QQ。
 
 ### 从源码目录安装
@@ -21,7 +21,6 @@
 ## 依赖
 
 - 系统需有实现 **Freedesktop 通知规范** 的服务，例如 `dunst`、`mako`、`swaync`、`gnome-shell` 自带通知等。
-- 从源码安装时需要 Node 依赖：`dbus-next`（由 `pnpm install` / `npm install` 安装）。
 
 ## 许可证
 
