@@ -1,0 +1,19 @@
+{
+    "manifest_version": 4,
+    "type": "extension",
+    "name": "Linux 通知",
+    "slug": "linux_notification",
+    "description": "通过 org.freedesktop.Notifications 在 Linux 上显示新消息桌面通知，点击通知可聚焦 QQ 窗口",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Hanako"
+        }
+    ],
+    "platform": ["linux"],
+    "injects": {
+        "main": "./main.js",
+        "preload": "./preload.js",
+        "renderer": "./renderer.js"
+    }
+}

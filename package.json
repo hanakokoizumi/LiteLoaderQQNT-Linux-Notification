@@ -1,0 +1,10 @@
+{
+    "name": "liteloaderqqnt-linux-notification",
+    "version": "0.1.0",
+    "private": true,
+    "main": "main.js",
+    "packageManager": "pnpm@9.15.4",
+    "dependencies": {
+        "dbus-next": "^0.10.2"
+    }
+}
